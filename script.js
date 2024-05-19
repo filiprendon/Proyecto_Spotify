@@ -1,26 +1,39 @@
-const token = '497bf12bd91d46e6bd57233a08cb6b61';
-async function fetchWebApi(endpoint, method, body) {
-    const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      method,
-      body:JSON.stringify(body)
+
+
+const getShows = async () => {
+    const showsUrl = "https://api.spotify.com/v1/me/shows?offset=0&limit=20";
+    const headers = new Headers({
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
     });
-    return await res.json();
-  }
-  
-  async function getTopTracks(){
-    // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi(
-      'v1/me/top/tracks?time_range=long_term&limit=5', 'GET'
-    )).items;
-  }
-  
-  const topTracks = await getTopTracks();
-  console.log(
-    topTracks?.map(
-      ({name, artists}) =>
-        `${name} by ${artists.map(artist => artist.name).join(', ')}`
-    )
-  );
+
+    try {
+        const response = await fetch(showsUrl, {
+            method: 'GET',
+            headers: headers
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch shows data');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error getting shows:', error);
+        throw error;
+    }
+};
+
+const main = async () => {
+    try {
+        const showsData = await getShows();
+        console.log('Shows Data:', showsData);
+
+        document.getElementById('shows-data').innerText = JSON.stringify(showsData, null, 2);
+    } catch (error) {
+        console.error('Error in main function:', error);
+    }
+};
+
+main();
