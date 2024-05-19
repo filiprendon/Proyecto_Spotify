@@ -3,84 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <title>Spotify API Example</title>
 </head>
 <body>
     <h1>Spotify API Example</h1>
     <div id="shows-data"></div>
-    <script>
-        const clientId = '3f1100a54f2549dcb2451025697915cd';
-const clientSecret = '497bf12bd91d46e6bd57233a08cb6b61';
-
-        const getToken = async () => {
-            const tokenUrl = 'https://accounts.spotify.com/api/token';
-            const headers = new Headers({
-                'Authorization': 'Basic ' + btoa(`${clientId}:${clientSecret}`),
-                'Content-Type': 'application/x-www-form-urlencoded'
-            });
-            const body = new URLSearchParams({
-                'grant_type': 'client_credentials'
-            });
-
-            try {
-                const response = await fetch(tokenUrl, {
-                    method: 'POST',
-                    headers: headers,
-                    body: body.toString()
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch token');
-                }
-
-                const data = await response.json();
-                return data.access_token;
-            } catch (error) {
-                console.error('Error getting token:', error);
-                throw error;
-            }
-        };
-
-        const getShows = async (accessToken) => {
-            const showsUrl = "https://api.spotify.com/v1/me/shows?offset=0&limit=20";
-            const headers = new Headers({
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            });
-
-            try {
-                const response = await fetch(showsUrl, {
-                    method: 'GET',
-                    headers: headers
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch shows data');
-                }
-
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error getting shows:', error);
-                throw error;
-            }
-        };
-
-        const main = async () => {
-            try {
-                const accessToken = await getToken();
-                console.log('Access Token:', accessToken);
-
-                const showsData = await getShows(accessToken);
-                console.log('Shows Data:', showsData);
-
-                document.getElementById('shows-data').innerText = JSON.stringify(showsData, null, 2);
-            } catch (error) {
-                console.error('Error in main function:', error);
-            }
-        };
-
-        main();
-    </script>
+    
 </body>
 </html>

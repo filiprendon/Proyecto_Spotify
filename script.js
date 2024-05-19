@@ -1,39 +1,19 @@
+var client_id = '3f1100a54f2549dcb2451025697915cd';
+var client_secret = '497bf12bd91d46e6bd57233a08cb6b61';
 
-
-const getShows = async () => {
-    const showsUrl = "https://api.spotify.com/v1/me/shows?offset=0&limit=20";
-    const headers = new Headers({
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-    });
-
-    try {
-        const response = await fetch(showsUrl, {
-            method: 'GET',
-            headers: headers
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch shows data');
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error getting shows:', error);
-        throw error;
-    }
+var authOptions = {
+  url: 'https://accounts.spotify.com/api/token',
+  headers: {
+    'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+  },
+  form: {
+    grant_type: 'client_credentials'
+  },
+  json: true
 };
 
-const main = async () => {
-    try {
-        const showsData = await getShows();
-        console.log('Shows Data:', showsData);
-
-        document.getElementById('shows-data').innerText = JSON.stringify(showsData, null, 2);
-    } catch (error) {
-        console.error('Error in main function:', error);
-    }
-};
-
-main();
+request.post(authOptions, function(error, response, body) {
+  if (!error && response.statusCode === 200) {
+    var token = body.access_token;
+  }
+});
