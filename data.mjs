@@ -39,7 +39,7 @@ const response = fetch("https://accounts.spotify.com/api/token", {
 async function getProfileData() {
   let access_token = localStorage.getItem("access_token");
   const responseTracks = await fetch(
-    "https://api.spotify.com/v1/me/top/tracks?limit=5",
+    "https://api.spotify.com/v1/me/top/tracks?limit=3",
     {
       headers: {
         Authorization: "Bearer " + access_token,
@@ -48,7 +48,7 @@ async function getProfileData() {
   );
 
   const responseArtists = await fetch(
-    "https://api.spotify.com/v1/me/top/artists?limit=5",
+    "https://api.spotify.com/v1/me/top/artists?limit=3",
     {
       headers: {
         Authorization: "Bearer " + access_token,
@@ -61,9 +61,11 @@ async function getProfileData() {
   console.log(dataArtists);
 
   
-    const imageContainer = document.querySelector(".image-container");
+    const imageContainerTracks = document.querySelector(".image-container-tracks");
+    const imageContainerArtists = document.querySelector(".image-container-artists");
 
-    imageContainer.innerHTML = "";
+    imageContainerTracks.innerHTML = "";
+    imageContainerArtists.innerHTML = "";
 
     dataTracks.items.forEach((track) => {
       const imgElement = document.createElement("img");
@@ -76,12 +78,30 @@ async function getProfileData() {
       infoDiv.innerHTML = `<p>${track.name}</p>`;
 
       const imageWrapper = document.createElement("div");
-      imageWrapper.className = "image-wrapper";
+      imageWrapper.className = "image-wrapper-tracks";
       imageWrapper.appendChild(imgElement);
       imageWrapper.appendChild(infoDiv);
 
-      imageContainer.appendChild(imageWrapper);
+      imageContainerTracks.appendChild(imageWrapper);
   });
+
+  dataArtists.items.forEach((artist) => {
+    const imgElement = document.createElement("img");
+    imgElement.src = artist.images[1].url;
+    imgElement.alt = artist.name;
+    imgElement.className = "image";
+
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "info";
+    infoDiv.innerHTML = `<p>${artist.name}</p>`;
+
+    const imageWrapper = document.createElement("div");
+    imageWrapper.className = "image-wrapper-artists";
+    imageWrapper.appendChild(imgElement);
+    imageWrapper.appendChild(infoDiv);
+
+    imageContainerArtists.appendChild(imageWrapper);
+});
 }
 
 getProfileData();

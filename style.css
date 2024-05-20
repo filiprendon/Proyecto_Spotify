@@ -5,14 +5,23 @@
     font-family: Arial, sans-serif;
 } */
 
-.image-container {
+.image-container-tracks, .image-container-artists {
     display: flex;
-    justify-content: center;
-    position: relative;
-    gap: 15px;
-    height: 150px;
+    justify-content: space-evenly;
+    /* height: 250px; */
 }
 
+@media (max-width: 960px) {
+    .image-container-tracks, .image-container-artists {
+        display: flex;
+        flex-direction: column;
+        /* height: 250px; */
+        /* width: 250px; */
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+  }
 .image {
     width: 100%;
     
