@@ -1,9 +1,16 @@
 /* body {
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
+    height: 100vh;
+    background-color: #f0f0f0;
 } */
+
+body{
+    transition: background-color 1.2s ease;
+}
 
 .image-container-tracks,
 .image-container-artists,
@@ -17,6 +24,7 @@
 .mainImage{
     scale: 1.6;
     z-index: 99999 !important;
+    filter: blur(0);
 }
 .mainImage:hover{
     scale: 1.6 !important;
@@ -44,7 +52,7 @@
 }
 
 .blur {
-  filter: blur(5px);
+  filter: blur(7px);
 }
 
 .image:hover {
@@ -58,6 +66,8 @@
   display: flex;
   justify-content: center;
   padding: 100px;
+  /* mix-blend-mode: difference;
+  filter: invert(1); */
 }
 .info {
   position: absolute;

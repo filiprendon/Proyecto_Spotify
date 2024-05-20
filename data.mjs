@@ -153,12 +153,12 @@ async function getProfileData() {
       });
     });
     img.addEventListener("click", (e) => {
-      if(img.parentElement.classList.contains('artists')){
+      if (img.parentElement.classList.contains("artists")) {
         return;
       }
-      
-      if(e.target.classList.contains('mainImage')){
-        return;
+
+      if (e.target.classList.contains("mainImage")) {
+          return;
       }
       img.classList.add("mainImage");
       images.forEach((otherImg) => {
@@ -180,6 +180,23 @@ async function getProfileData() {
       let clickPos = Array.from(imagesInContainer).indexOf(img);
       console.log(clickPos);
       // img.onclick = img.classList.remove("mainImage");
+
+      var colorThief = new ColorThief();
+      var imageUrl = img.src;
+      var image = new Image();
+      image.crossOrigin = "Anonymous";
+      image.src = imageUrl;
+      image.onload = function () {
+        var dominantColor = colorThief.getColor(image);
+        document.body.style.backgroundColor =
+          "rgb(" +
+          dominantColor[0] +
+          "," +
+          dominantColor[1] +
+          "," +
+          dominantColor[2] +
+          ")";
+      };
 
       if (clickPos !== 2) {
         let elementToMove = img.parentNode;
