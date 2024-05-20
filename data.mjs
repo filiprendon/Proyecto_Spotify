@@ -47,6 +47,15 @@ async function getProfileData() {
     }
   );
 
+  const responseData = await fetch(
+    "https://api.spotify.com/v1/me/player/recently-played",
+    {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    }
+  );
+
   const responseArtists = await fetch(
     "https://api.spotify.com/v1/me/top/artists?limit=5",
     {
@@ -57,8 +66,10 @@ async function getProfileData() {
   );
   const dataTracks = await responseTracks.json();
   const dataArtists = await responseArtists.json();
+  const dataUser = await responseData.json();
   console.log(dataTracks);
   console.log(dataArtists);
+  console.log(dataUser);
 
   let imageContainerTracks = document.querySelector(".image-container-tracks");
   let imageContainerArtists = document.querySelector(
@@ -84,6 +95,8 @@ async function getProfileData() {
     imgElement.setAttribute("data-track", JSON.stringify(track));
 
     const infoDiv = document.createElement("div");
+    infoDiv.style.display = "none";
+
     infoDiv.className = "info";
     infoDiv.innerHTML = `<p>${track.name}</p>`;
 
@@ -100,6 +113,13 @@ async function getProfileData() {
     if (track.artists[0].name !== "Travis Scott") {
       return;
     }
+
+    // GET ACTUAL TOP ARTIST
+    // console.log(dataArtists.items[0].name)
+    // if (track.artists[0].name !== dataArtists.items[0].name) {
+    //   return;
+    // }
+
     const imgElement = document.createElement("img");
     imgElement.src = track.album.images[1].url;
     imgElement.alt = track.name;
@@ -108,6 +128,8 @@ async function getProfileData() {
     imgElement.setAttribute("data-track", JSON.stringify(track));
 
     const infoDiv = document.createElement("div");
+    infoDiv.style.display = "none";
+
     infoDiv.className = "info";
     infoDiv.innerHTML = `<p>${track.name}</p>`;
 
@@ -126,6 +148,7 @@ async function getProfileData() {
     imgElement.className = "image";
 
     const infoDiv = document.createElement("div");
+    infoDiv.style.display = "none";
     infoDiv.className = "info";
     infoDiv.innerHTML = `<p>${artist.name}</p>`;
 
@@ -140,6 +163,9 @@ async function getProfileData() {
   let images = document.querySelectorAll(".image");
   let currentAudio = null;
   images.forEach((img) => {
+    const trackData = JSON.parse(img.getAttribute("data-track"));
+    // console.log(trackData);
+    let audio = new Audio(trackData?.preview_url);
     img.addEventListener("mouseover", () => {
       images.forEach((otherImg) => {
         if (otherImg !== img) {
@@ -158,22 +184,31 @@ async function getProfileData() {
       }
 
       if (e.target.classList.contains("mainImage")) {
-          return;
+        img.classList.remove("mainImage");
+        img.classList.remove('info')
+
+        document.body.style.backgroundColor = "rgb(124, 122, 122)";
+        audio.pause();
+        // audio.currentTime = 0;
+        return;
       }
+
       img.classList.add("mainImage");
+
       images.forEach((otherImg) => {
         if (otherImg !== img) {
           otherImg.classList.remove("mainImage");
+          otherImg.classList.remove('info')
         }
       });
-      const trackData = JSON.parse(img.getAttribute("data-track"));
-      console.log(trackData);
-      let audio = new Audio(trackData?.preview_url);
+
       if (currentAudio) {
         currentAudio.pause();
+        // currentAudio.currentTime = 0;
       }
 
       audio.play();
+
       currentAudio = audio;
       let parentContainer = img.parentNode.parentNode;
       let imagesInContainer = parentContainer.querySelectorAll(".image");
@@ -207,7 +242,42 @@ async function getProfileData() {
           let referenceElement = imagesInContainer[2].parentNode;
           parentContainer.insertBefore(elementToMove, referenceElement);
         }
+
+        let containers = document.querySelectorAll(".c");
+        containers.forEach((container) => {
+          container.addEventListener("click", () => {
+            let divOffsetTop = container.offsetTop;
+            window.scrollTo({
+              top: divOffsetTop,
+              behavior: "instant",
+            });
+          });
+        });
       }
+
+      let existingInfoElement = img.parentNode.querySelector(".info");
+      if (existingInfoElement) {
+          existingInfoElement.remove();
+      }
+
+      // Crear el elemento info
+      let infoElement = document.createElement("div");
+      infoElement.classList.add("info");
+
+
+      let p1Element = document.createElement("h3");
+      p1Element.textContent = trackData.name;
+      infoElement.appendChild(p1Element);
+
+      let p2Element = document.createElement("p");
+      p2Element.textContent = trackData.album.artists[0].name;
+      infoElement.appendChild(p2Element);
+
+      let p3Element = document.createElement("p");
+      p3Element.textContent = trackData.album.name;
+      infoElement.appendChild(p3Element);
+
+      img.parentNode.insertBefore(infoElement, img.nextSibling);
     });
   });
 }
