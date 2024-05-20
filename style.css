@@ -29,6 +29,11 @@
     object-fit: cover;
 }
 
+.title{
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+}
 .info {
     position: absolute;
     bottom: -50px;
