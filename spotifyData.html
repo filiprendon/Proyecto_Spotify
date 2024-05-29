@@ -12,32 +12,56 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 
-<body>
+<body style="background-color: #121212;">
 
+    <div class="viewContainer" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left exitSong" width="44" height="44"
+            viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M15 6l-6 6l6 6" />
+        </svg>
+        <div class="leftContent content">
+            <div class="backgroundImg">
+                <img class="backgroungImgToFill" src="" alt="">
+                <div class="mainImgContainer">
+                    <img class="imgToFill" src="" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="rightContent cotnent">
+            <div class="trackDataContainer">
+                <h1 class="trackName infoTrack"></h1>
+                <h2 class="artistName infoTrack"></h2>
+                <h3 class="albumName infoTrack"></h3>
+            </div>
+        </div>
+    </div>
 
     <!-- <div class="blur" style="display: none;"></div> -->
 
     <div class="artist-container container-fluid c">
-        <h3 class="title">My top 3 artists</h3>
+        <h3 class="title">My top artists</h3>
         <div class="image-container-artists"></div>
         <div class="info" style="display: none;"></div>
     </div>
-    
+
     <div class="tracks-container container-fluid c">
-        <h3 class="title">My top 5 songs</h3>
+        <h3 class="title">My top songs</h3>
         <div class="image-container-tracks"></div>
         <div class="info" style="display: none;"></div>
     </div>
-    
+
     <div class="tracks-container container-fluid c image-container">
         <h3 class="title">Top songs from my favorite artist</h3>
         <div class="image-container-favtracks"></div>
         <div class="info" style="display: none;"></div>
     </div>
-    
+
 
 
     <!-- <div class="image-container"></div> -->

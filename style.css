@@ -11,6 +11,9 @@
 body {
   background-color: rgb(124, 122, 122);
   transition: background-color 1.2s ease;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 .image-container-tracks,
@@ -32,7 +35,7 @@ body {
   z-index: 1 !important;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1284px) {
   .image-container-tracks,
   .image-container-artists,
   .image-container-favtracks {
@@ -44,6 +47,93 @@ body {
     align-items: center;
     gap: 15px;
   }
+
+  .viewContainer {
+    flex-direction: column !important;
+  }
+  
+  .backgroundImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    aspect-ratio: 1;
+    background-color: transparent;
+  }
+  .mainImgContainer {
+    height: 500px;
+    position: absolute;
+    aspect-ratio: 1;
+  }
+  
+  .rightContent {
+    height: 500px;
+    /* position: absolute; */
+    aspect-ratio: 1;
+  }
+  .imgToFill {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .backgroungImgToFill {
+    filter: blur(70px);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+}
+
+@media (max-width: 790px) {
+  .image-container-tracks,
+  .image-container-artists,
+  .image-container-favtracks {
+    display: flex;
+    flex-direction: column;
+    /* height: 250px; */
+    /* width: 250px; */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .viewContainer{
+    justify-content: normal !important;
+  }
+  .backgroundImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px !important;
+    aspect-ratio: 1;
+    background-color: transparent;
+  }
+  .mainImgContainer {
+    height: 350px !important;
+    position: absolute;
+    aspect-ratio: 1;
+  }
+  
+  .rightContent {
+    height: 350px !important;
+    /* position: absolute; */
+    aspect-ratio: 1;
+  }
+  .imgToFill {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .backgroungImgToFill {
+    filter: blur(70px);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
 }
 .image {
   width: 100%;
@@ -84,7 +174,73 @@ body {
 
 .c {
   justify-content: center;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   min-height: 100vh;
   width: 100vw;
+}
+
+.viewContainer {
+  z-index: 15;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: fixed;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+}
+
+.backgroundImg {
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  aspect-ratio: 1;
+  background-color: transparent;
+}
+.mainImgContainer {
+  height: 500px;
+  position: absolute;
+  aspect-ratio: 1;
+}
+
+.rightContent {
+  height: 500px;
+  /* position: absolute; */
+  aspect-ratio: 1;
+}
+.imgToFill {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.backgroungImgToFill {
+  filter: blur(70px);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trackName {
+  height: 100px;
+}
+.artistName {
+  height: 50px;
+}
+.albumName {
+  height: 50px;
+}
+
+.infoTrack{
+  display: flex;
+  filter: invert(1);
+  align-items: center;
+}
+
+.exitSong{
+  position: absolute;
+  top: 40px;
+  left: 40px;
 }

@@ -1,5 +1,14 @@
 const clientId = "3f1100a54f2549dcb2451025697915cd";
-const redirectUri = "http://127.0.0.1:5500/spotifyData.html";
+// const redirectUri = "http://127.0.0.1:5500/spotifyData.html";
+const redirectUri = "https://filiprendon.github.io/Spotify/spotifyData.html";
+let imgToFill = document.querySelector(".imgToFill");
+let viewContainer = document.querySelector(".viewContainer");
+let backgroungImgToFill = document.querySelector(".backgroungImgToFill");
+let trackName = document.querySelector(".trackName");
+let artistName = document.querySelector(".artistName");
+let albumName = document.querySelector(".albumName");
+let exitSong = document.querySelector(".exitSong");
+let mainImgContainer = document.querySelector('.mainImgContainer');
 let dataTracks = "";
 let dataArtists = "";
 
@@ -182,23 +191,40 @@ async function getProfileData() {
       if (img.parentElement.classList.contains("artists")) {
         return;
       }
+      viewContainer.style.display = "flex";
 
-      if (e.target.classList.contains("mainImage")) {
-        img.classList.remove("mainImage");
-        img.classList.remove('info')
+      // let mainImgContainerRect = mainImgContainer.getBoundingClientRect()
+      // let imgRect = img.getBoundingClientRect();
+      // console.log(mainImgContainerRect);
 
-        document.body.style.backgroundColor = "rgb(124, 122, 122)";
-        audio.pause();
-        // audio.currentTime = 0;
-        return;
-      }
 
-      img.classList.add("mainImage");
+      // let deltaX = mainImgContainerRect.left - imgRect.left;
+      // let deltaY = mainImgContainerRect.top - imgRect.top;
+
+      // img.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      // if (e.target.classList.contains("mainImage")) {
+      //   img.classList.remove("mainImage");
+      //   img.classList.remove('info')
+
+      //   document.body.style.backgroundColor = "rgb(124, 122, 122)";
+      //   audio.pause();
+      //   // audio.currentTime = 0;
+      //   return;
+      // }
+
+
+      imgToFill.src = trackData.album.images[0].url;
+      backgroungImgToFill.src = trackData.album.images[0].url;
+      trackName.innerHTML = trackData.name;
+      artistName.innerHTML = trackData.artists[0].name;
+      albumName.innerHTML = trackData.album.name;
+
+      // img.classList.add("mainImage");
 
       images.forEach((otherImg) => {
         if (otherImg !== img) {
           otherImg.classList.remove("mainImage");
-          otherImg.classList.remove('info')
+          otherImg.classList.remove("info");
         }
       });
 
@@ -212,8 +238,8 @@ async function getProfileData() {
       currentAudio = audio;
       let parentContainer = img.parentNode.parentNode;
       let imagesInContainer = parentContainer.querySelectorAll(".image");
-      let clickPos = Array.from(imagesInContainer).indexOf(img);
-      console.log(clickPos);
+      // let clickPos = Array.from(imagesInContainer).indexOf(img);
+      // console.log(clickPos);
       // img.onclick = img.classList.remove("mainImage");
 
       var colorThief = new ColorThief();
@@ -223,7 +249,7 @@ async function getProfileData() {
       image.src = imageUrl;
       image.onload = function () {
         var dominantColor = colorThief.getColor(image);
-        document.body.style.backgroundColor =
+        viewContainer.style.backgroundColor =
           "rgb(" +
           dominantColor[0] +
           "," +
@@ -233,51 +259,33 @@ async function getProfileData() {
           ")";
       };
 
-      if (clickPos !== 2) {
-        let elementToMove = img.parentNode;
-        if (clickPos <= 2) {
-          let referenceElement = imagesInContainer[3].parentNode;
-          parentContainer.insertBefore(elementToMove, referenceElement);
-        } else {
-          let referenceElement = imagesInContainer[2].parentNode;
-          parentContainer.insertBefore(elementToMove, referenceElement);
-        }
+      // if (clickPos !== 2) {
+      //   let elementToMove = img.parentNode;
+      //   if (clickPos <= 2) {
+      //     let referenceElement = imagesInContainer[3].parentNode;
+      //     parentContainer.insertBefore(elementToMove, referenceElement);
+      //   } else {
+      //     let referenceElement = imagesInContainer[2].parentNode;
+      //     parentContainer.insertBefore(elementToMove, referenceElement);
+      //   }
 
-        let containers = document.querySelectorAll(".c");
-        containers.forEach((container) => {
-          container.addEventListener("click", () => {
-            let divOffsetTop = container.offsetTop;
-            window.scrollTo({
-              top: divOffsetTop,
-              behavior: "instant",
-            });
-          });
-        });
-      }
+      // let containers = document.querySelectorAll(".c");
+      // containers.forEach((container) => {
+      //   container.addEventListener("click", () => {
+      //     let divOffsetTop = container.offsetTop;
+      //     window.scrollTo({
+      //       top: divOffsetTop,
+      //       behavior: "instant",
+      //     });
+      //   });
+      // });
 
-      let existingInfoElement = img.parentNode.querySelector(".info");
-      if (existingInfoElement) {
-          existingInfoElement.remove();
-      }
-
-      // Crear el elemento info
-      let infoElement = document.createElement("div");
-      infoElement.classList.add("info");
-
-
-      let p1Element = document.createElement("h3");
-      p1Element.textContent = trackData.name;
-      infoElement.appendChild(p1Element);
-
-      let p2Element = document.createElement("p");
-      p2Element.textContent = trackData.album.artists[0].name;
-      infoElement.appendChild(p2Element);
-
-      let p3Element = document.createElement("p");
-      p3Element.textContent = trackData.album.name;
-      infoElement.appendChild(p3Element);
-
-      img.parentNode.insertBefore(infoElement, img.nextSibling);
+      
+    });
+    exitSong.addEventListener("click", () => {
+      viewContainer.style.display = "none";
+      audio.pause();
+      audio.currentTime = 0;
     });
   });
 }
